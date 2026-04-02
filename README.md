@@ -1,6 +1,10 @@
 # Fireball Fireworks SDK
 
-Fireball™ Fireworks is the world's most high-performance and feature-rich Remote Games Server SDK, built upon almost two decades of battle-hardened experience. Its open architecture allows game studios to easily deploy and maintain game logic, and enables operators to simply integrate into the action.
+A server-side C# SDK for integrating game servers with the Fireball platform. It sits on your game's backend and acts as the single point of contact for all communication with the Fireball API — handling player authentication, wallet operations (bets and wins), game session state, client message delivery, jackpots, and multiplayer coordination.
+
+The SDK is designed to run within a Fireball-hosted environment. All outbound HTTP requests are automatically authenticated.
+
+<img width="512" height="512" alt="FireWorks" src="https://github.com/user-attachments/assets/894c83e4-ab14-4d43-bc9a-7bb5f128b029" />
 
 ---
 
