@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Fireball.Fireworks.Core;
 using Fireball.Fireworks.IntegrationModule;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;

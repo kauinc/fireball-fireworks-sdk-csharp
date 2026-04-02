@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
-namespace Fireball.Fireworks
+namespace Fireball.Fireworks.Core
 {
     public class ParseResult
     {

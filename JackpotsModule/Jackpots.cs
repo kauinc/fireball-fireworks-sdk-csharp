@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Fireball.Fireworks.Core;
 using Fireball.Fireworks.Models;
 using Fireball.Fireworks.SessionModule;
 using Microsoft.Extensions.Logging;

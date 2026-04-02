@@ -6,7 +6,7 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Fireball.Fireworks
+namespace Fireball.Fireworks.Core
 {
     public class GoogleAccessTokenHandler(ILogger<GoogleAccessTokenHandler> logger) : DelegatingHandler
     {

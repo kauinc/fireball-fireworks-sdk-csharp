@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace Fireball.Fireworks
+namespace Fireball.Fireworks.Core
 {
     public interface IFireballLogger
     {

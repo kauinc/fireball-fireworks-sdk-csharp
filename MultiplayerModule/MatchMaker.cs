@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Fireball.Fireworks.Core;
 using Fireball.Fireworks.Models;
 using Microsoft.Extensions.Logging;
 
