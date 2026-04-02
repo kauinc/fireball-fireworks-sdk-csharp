@@ -1,0 +1,268 @@
+﻿using System;
+using System.Collections.Generic;
+using Fireball.Game.Server.JackpotsModule;
+using Fireball.Game.Server.Models;
+using Fireball.Game.Server.Validation;
+using Newtonsoft.Json;
+
+namespace Fireball.Game.Server.IntegrationModule
+{
+    public class IntegrationAuthMessage : BaseMessage
+    {
+        public string Token { get; set; }
+
+        public IntegrationAuthMessage(AuthMessage message)
+        {
+            CopyBaseParams(message);
+
+            Name = FireballConstants.MessagesNames.AUTHENTICATE;
+            Token = message.Token;
+            ConnectionId = message.ConnectionId;
+            server_side = null;
+            client_side = null;
+        }
+    }
+    public class IntegrationSessionMessage : BaseMessage
+    {
+        public string Token { get; set; }
+        public long Balance { get; set; }
+        public long? Multiplier { get; set; }
+        public List<FreeBetCampaign> FreeBetCampaigns { get; set; }
+
+        public IntegrationSessionMessage()
+        {
+            Name = FireballConstants.MessagesNames.SESSION;
+        }
+    }
+
+    public class IntegrationBalanceRequest : BaseMessage
+    {
+        [RequiredSet(IsRequired = false)]
+        public new string GameSession { get; set; }
+        [RequiredSet(IsRequired = false)]
+        public new string PlayerId { get; set; }
+
+        public IntegrationBalanceRequest() { }
+
+        public IntegrationBalanceRequest(BaseMessage message)
+        {
+            CopyBaseParams(message);
+
+            Name = FireballConstants.MessagesNames.BALANCE_REQUEST;
+            server_side = null;
+            client_side = null;
+        }
+    }
+    public class IntegrationBalanceUpdated : BaseMessage
+    {
+        public long Balance { get; set; }
+
+        public IntegrationBalanceUpdated()
+        {
+            Name = FireballConstants.MessagesNames.BALANCE_UPDATED;
+        }
+    }
+
+    public class IntegrationBetPlace : BaseMessage
+    {
+        public string BetType { get; set; }
+        public long Amount { get; set; }
+        public ParentBet ParentBet { get; set; }
+        public FreeBetDetails FreeBetDetails { get; set; }
+        public List<JackpotContribution> JackpotContributions { get; set; }
+
+        public IntegrationBetPlace(string betType, long amount, BaseMessage message, ParentBet parentBet = null, FreeBetDetails freeBetDetails = null, List<JackpotContribution> jackpotContributions = null)
+        {
+            CopyBaseParams(message);
+
+            Name = FireballConstants.MessagesNames.BET_PLACE;
+            Amount = amount;
+            BetType = betType;
+            ReplayId = FireballTools.GenerateGUID();
+            ParentBet = parentBet;
+            FreeBetDetails = freeBetDetails;
+            JackpotContributions = jackpotContributions;
+            server_side = null;
+            client_side = null;
+        }
+    }
+    public class IntegrationBetPlaced : BaseMessage
+    {
+        public string BetType { get; set; }
+        public long Balance { get; set; }
+        public long Amount { get; set; }
+        public string OperatorBetId { get; set; }
+        public ParentBet ParentBet { get; set; }
+        public FreeBetDetails FreeBetDetails { get; set; }
+        public List<FreeBetCampaign> FreeBetCampaigns { get; set; }
+
+        public IntegrationBetPlaced()
+        {
+            Name = FireballConstants.MessagesNames.BET_PLACED;
+        }
+    }
+
+    public class IntegrationWinningPay : BaseMessage
+    {
+        public string WinningType { get; set; } // "BONUSGAME", "SPIN", "JACKPOT"
+        public string OperatorBetId { get; set; }
+        public long Amount { get; set; }
+        public bool NoResponse { get; set; }
+        public ParentBet ParentBet { get; set; }
+        public DisplayDelay DisplayDelay { get; set; }
+        public FreeBetDetails FreeBetDetails { get; set; }
+
+        public IntegrationWinningPay(string winningType, string operatorBetId, long amount, BaseMessage message, bool noResponse = false, ParentBet parentBet = null, DisplayDelay displayDelay = null, FreeBetDetails freeBetDetails = null)
+        {
+            CopyBaseParams(message);
+
+            Name = FireballConstants.MessagesNames.WINNING_PAY;
+            WinningType = winningType;
+            OperatorBetId = operatorBetId;
+            Amount = amount;
+            NoResponse = noResponse;
+            ParentBet = parentBet;
+            DisplayDelay = displayDelay;
+            FreeBetDetails = freeBetDetails;
+            server_side = null;
+            client_side = null;
+        }
+    }
+    public class IntegrationWinningPaid : BaseMessage
+    {
+        public string WinningType { get; set; }
+        public string OperatorBetId { get; set; }
+        public long Balance { get; set; }
+        public long Amount { get; set; }
+        public ParentBet ParentBet { get; set; }
+        public FreeBetDetails FreeBetDetails { get; set; }
+        public List<FreeBetCampaign> FreeBetCampaigns { get; set; }
+
+        public IntegrationWinningPaid()
+        {
+            Name = FireballConstants.MessagesNames.WINNING_PAID;
+        }
+    }
+
+
+    public class IntegrationJackpotPay : BaseMessage
+    {
+        public List<JackpotEntry> Jackpots { get; set; }
+        public string OperatorBetId { get; set; }
+        public DisplayDelay DisplayDelay { get; set; }
+
+        public IntegrationJackpotPay(List<JackpotEntry> jackpots, string operatorBetId, BaseMessage message, DisplayDelay displayDelay = null)
+        {
+            CopyBaseParams(message);
+
+            Jackpots = jackpots;
+            OperatorBetId = operatorBetId;
+            DisplayDelay = displayDelay;
+            server_side = null;
+            client_side = null;
+        }
+    }
+    public class IntegrationJackpotPaid : BaseMessage
+    {
+        public long TotalAmount { get; set; }
+        public long Balance { get; set; }
+        public List<JackpotEntry> Jackpots { get; set; }
+
+        public IntegrationJackpotPaid()
+        {
+            Name = FireballConstants.MessagesNames.WINNING_PAID;
+        }
+    }
+
+
+    public class IntegrationPayDisplay : BaseMessage
+    {
+        public string DisplayId { get; set; }
+
+        public IntegrationPayDisplay(string displayId, BaseMessage message)
+        {
+            CopyBaseParams(message);
+
+            DisplayId = displayId;
+            server_side = null;
+            client_side = null;
+        }
+    }
+
+
+    public class IntegrationDisconnectMessage : BaseMessage
+    {
+        public IntegrationDisconnectMessage()
+        {
+            Name = FireballConstants.MessagesNames.DISCONNECTED;
+        }
+    }
+
+    public class IntegrationEndSessionMessage : BaseMessage
+    {
+        public IntegrationEndSessionMessage() { }
+
+        public IntegrationEndSessionMessage(BaseMessage message)
+        {
+            Name = FireballConstants.MessagesNames.DISCONNECTED;
+            CopyBaseParams(message);
+        }
+    }
+
+    public class DisplayDelay
+    {
+        public string DisplayId { get; set; }
+        public int DisplayTimeout { get; set; }
+        public int Delay { get; set; }
+
+        public DisplayDelay(string displayId = null, int displayTimeout = 300, int delay = 0)
+        {
+            DisplayId = displayId;
+            DisplayTimeout = displayTimeout;
+            Delay = delay;
+        }
+    }
+
+    public class FreeBetCampaign
+    {
+        public string Id { get; set; }
+        public long BetAmount { get; set; }
+        public int NumberOfBets { get; set; }
+        public Dictionary<string, object> Settings { get; set; }
+    }
+
+    public class FreeBetDetails
+    {
+        public string FreeBetCampaignId { get; set; }
+        public string FreeBetId { get; set; }
+        public int NumberOfBets { get; set; }
+        public bool IsFreeBetCampaignOver { get; set; }
+    }
+
+
+    public class ParentBet
+    {
+        public string ActionId { get; set; }
+        public string OperatorBetId { get; set; }
+        public ParentBetDetails Details { get; set; }
+
+        public ParentBet() { }
+
+        public ParentBet(string actionId, string operatorBetId, long sum, bool finalWin)
+        {
+            ActionId = actionId;
+            OperatorBetId = operatorBetId;
+            Details = new ParentBetDetails()
+            {
+                Sum = sum,
+                IsFinalWin = finalWin
+            };
+        }
+    }
+
+    public class ParentBetDetails
+    {
+        public long Sum { get; set; }
+        public bool IsFinalWin { get; set; }
+    }
+}

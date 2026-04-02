@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Authors>KAU Inc.</Authors>
+    <Description>Fireball™ is the world's most high performance and feature rich Remote Games Server built upon almost two decades of hard earned battle experience. It’s open architecture allows for game studios to easily deploy and maintain games logic and for operators to simply integrate into the action.</Description>
+    <PackageId>Fireball.Game.Server</PackageId>
+    <SynchReleaseVersion>false</SynchReleaseVersion>
+    <RootNamespace>Fireball</RootNamespace>
+    <PackOnBuild>true</PackOnBuild>
+    <Configurations>Release;Debug</Configurations>
+    <Copyright>Copyright © 2004-2025. All rights reserved.</Copyright>
+    <Owners>KAU Inc.</Owners>
+    <Title>Fireball</Title>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageProjectUrl>https://www.fireballserver.com/</PackageProjectUrl>
+    <PackageTags>fireball,game,server</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Version>1.7.4</Version>
+    <ReleaseVersion>1.7.4</ReleaseVersion>
+    <PackageVersion>1.7.4</PackageVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Fireball.Game.Server.Rng" Version="1.0.3" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.0" />
+    <PackageReference Include="Polly" Version="8.5.0" />
+    <PackageReference Include="Polly.Extensions.Http" Version="3.0.0" />
+    <PackageReference Include="Google.Cloud.Firestore" Version="3.9.0" />
+    <PackageReference Include="Google.Cloud.Functions.Hosting" Version="2.2.1" />
+    <PackageReference Include="Google.Cloud.PubSub.V1" Version="3.19.0" />
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="9.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <None Include="icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+</Project>
