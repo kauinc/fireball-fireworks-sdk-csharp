@@ -40,7 +40,7 @@ namespace Fireball.Fireworks
         public static FireballConfigs Default => new FireballConfigs();
     }
 
-    public interface IFireball
+    public interface IFireworks
     {
         string Environment { get; }
 
@@ -77,14 +77,14 @@ namespace Fireball.Fireworks
         Task<MessageResult> SendDisconnect(IntegrationDisconnectMessage message, bool integrationEndSession = false);
     }
 
-    internal class FireballServer : IFireball
+    internal class Fireworks : IFireworks
     {
         private readonly IFireballLogger _logger;
         private readonly IMessenger _messenger;
         private readonly IIntegration _integration;
         private readonly ISession _session;
 
-        public FireballServer(IIntegration integration, ISession session, IMessenger messenger, ILogger<FireballServer> logger)
+        public Fireworks(IIntegration integration, ISession session, IMessenger messenger, ILogger<Fireworks> logger)
         {
             _integration = integration;
             _session = session;
@@ -618,7 +618,7 @@ namespace Fireball.Fireworks
 
     public static class FireballServerExtensions
     {
-        public static IServiceCollection AddFireballDependencies(this IServiceCollection services)
+        public static IServiceCollection AddFireworks(this IServiceCollection services)
         {
             services.AddRngDependencies();
 
@@ -641,7 +641,7 @@ namespace Fireball.Fireworks
                 .AddPolicyHandler(wrappedPolicy);
             services.RemoveAll<IHttpMessageHandlerBuilderFilter>();
 
-            services.AddSingleton<IFireball, FireballServer>();
+            services.AddSingleton<IFireworks, Fireworks>();
             services.AddSingleton<IIntegration, Integration>();
             services.AddSingleton<ISession, Session>();
             services.AddSingleton<IMessenger, Messenger>();

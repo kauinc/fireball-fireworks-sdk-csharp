@@ -1,8 +1,8 @@
 # Fireball Fireworks SDK
 
-A server-side C# SDK for integrating game servers with the Fireball platform. It sits on your game's backend and acts as the single point of contact for all communication with the Fireball API — handling player authentication, wallet operations (bets and wins), game session state, client message delivery, jackpots, and multiplayer coordination.
+A server-side C# SDK for integrating game servers with the Fireball platform. It sits on your game's backend and acts as the single point of contact for all communication with Fireball — handling player authentication, wallet operations (bets and wins), game session state, client message delivery, jackpots, and multiplayer coordination.
 
-The SDK is designed to run within a Fireball-hosted environment. All outbound HTTP requests are automatically authenticated.
+The SDK is designed to run within a Fireball-hosted environment.
 
 <img width="512" height="512" alt="FireWorks" src="https://github.com/user-attachments/assets/894c83e4-ab14-4d43-bc9a-7bb5f128b029" />
 
@@ -47,35 +47,35 @@ Install-Package Fireball.Fireworks
 
 ### 1. Register dependencies
 
-In your `Program.cs` or `Startup.cs`, call `AddFireballDependencies()` on your `IServiceCollection`:
+In your `Program.cs` or `Startup.cs`, call `AddFireworks()` on your `IServiceCollection`:
 
 ```csharp
 using Fireball.Fireworks;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddFireballDependencies();
+builder.Services.AddFireworks();
 ```
 
 This registers all required singletons and HTTP clients, including retry and timeout policies via Polly.
 
-### 2. Inject `IFireball`
+### 2. Inject `IFireworks`
 
 ```csharp
 using Fireball.Fireworks;
 
 public class MyGameFunction
 {
-    private readonly IFireball _fireball;
+    private readonly IFireworks _fireworks;
 
-    public MyGameFunction(IFireball fireball)
+    public MyGameFunction(IFireworks fireworks)
     {
-        _fireball = fireball;
+        _fireworks = fireworks;
     }
 
     public async Task HandleMessage(string messageJson)
     {
-        var result = await _fireball.ParseMessage(messageJson);
+        var result = await _fireworks.ParseMessage(messageJson);
 
         if (result.IsSuccess)
         {
@@ -98,7 +98,7 @@ public class MyGameFunction
 
 | Module | Namespace | Description |
 |---|---|---|
-| **Core** | `Fireball.Fireworks` | Entry point (`IFireball`), message parsing, validation, configuration |
+| **Core** | `Fireball.Fireworks` | Entry point (`IFireworks`), message parsing, validation, configuration |
 | **Integration** | `Fireball.Fireworks.IntegrationModule` | Authenticate players, place bets, pay wins, handle disconnects |
 | **Session** | `Fireball.Fireworks.SessionModule` | Create, retrieve, update, and close game sessions and game state |
 | **Jackpots** | `Fireball.Fireworks.JackpotsModule` | Jackpot contributions and payouts |
