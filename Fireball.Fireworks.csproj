@@ -17,9 +17,9 @@
     <PackageProjectUrl>https://www.fireballserver.com/</PackageProjectUrl>
     <PackageTags>fireball,fireworks,game,server</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>1.7.4</Version>
-    <ReleaseVersion>1.7.4</ReleaseVersion>
-    <PackageVersion>1.7.4</PackageVersion>
+    <Version>1.0.0</Version>
+    <ReleaseVersion>1.0.0</ReleaseVersion>
+    <PackageVersion>1.0.0</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
