@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Fireball.Game.Server.Models
+namespace Fireball.Fireworks.Models
 {
     public class MessageResult
     {

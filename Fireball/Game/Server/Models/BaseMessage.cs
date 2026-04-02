@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Fireball.Game.Server.IntegrationModule;
-using Fireball.Game.Server.JackpotsModule;
-using Fireball.Game.Server.SessionModule;
-using Fireball.Game.Server.Validation;
+using Fireball.Fireworks.IntegrationModule;
+using Fireball.Fireworks.JackpotsModule;
+using Fireball.Fireworks.SessionModule;
+using Fireball.Fireworks.Validation;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Fireball.Game.Server.Models
+namespace Fireball.Fireworks.Models
 {
     public abstract class JsonMessage
     {

@@ -1,10 +1,10 @@
 ﻿using System;
-using Fireball.Game.Server.Models;
+using Fireball.Fireworks.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
-namespace Fireball.Game.Server
+namespace Fireball.Fireworks
 {
     public class ParseResult
     {

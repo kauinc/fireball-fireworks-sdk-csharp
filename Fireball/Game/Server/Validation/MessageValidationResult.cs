@@ -1,6 +1,6 @@
-﻿using Fireball.Game.Server.Models;
+﻿using Fireball.Fireworks.Models;
 
-namespace Fireball.Game.Server.Validation
+namespace Fireball.Fireworks.Validation
 {
     public class MessageValidationResult
     {

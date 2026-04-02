@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Fireball.Game.Server.IntegrationModule;
+using Fireball.Fireworks.IntegrationModule;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace Fireball.Game.Server.SessionModule
+namespace Fireball.Fireworks.SessionModule
 {
     internal interface ISession
     {

@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using Fireball.Game.Server.Models;
+using Fireball.Fireworks.Models;
 using Microsoft.Extensions.Logging;
 
-namespace Fireball.Game.Server.TestsModule
+namespace Fireball.Fireworks.TestsModule
 {
     public interface ITester
     {

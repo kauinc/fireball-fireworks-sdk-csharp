@@ -1,13 +1,12 @@
-﻿using Fireball.Fireball.Game.Server.Core;
-using Fireball.Game.Server.IntegrationModule;
-using Fireball.Game.Server.JackpotsModule;
-using Fireball.Game.Server.MessagesModule;
-using Fireball.Game.Server.Models;
-using Fireball.Game.Server.MultiplayerModule;
-using Fireball.Game.Server.Rng;
-using Fireball.Game.Server.SessionModule;
-using Fireball.Game.Server.TestsModule;
-using Fireball.Game.Server.Validation;
+﻿using Fireball.Fireworks.IntegrationModule;
+using Fireball.Fireworks.JackpotsModule;
+using Fireball.Fireworks.MessagesModule;
+using Fireball.Fireworks.Models;
+using Fireball.Fireworks.MultiplayerModule;
+using Fireball.Fireworks.Rng;
+using Fireball.Fireworks.SessionModule;
+using Fireball.Fireworks.TestsModule;
+using Fireball.Fireworks.Validation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Http;
@@ -24,7 +23,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Fireball.Game.Server
+namespace Fireball.Fireworks
 {
     public class MessageValidationResult
     {

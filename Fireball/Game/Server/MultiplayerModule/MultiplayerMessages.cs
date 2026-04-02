@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Fireball.Game.Server.Models;
-using Fireball.Game.Server.SessionModule;
+using Fireball.Fireworks.Models;
+using Fireball.Fireworks.SessionModule;
 
-namespace Fireball.Game.Server.MultiplayerModule
+namespace Fireball.Fireworks.MultiplayerModule
 {
     internal class BetTiersData
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Fireball.Game.Server.MessagesModule
+namespace Fireball.Fireworks.MessagesModule
 {
     public class ReceiverTypes
     {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Fireball.Game.Server.Models;
+using Fireball.Fireworks.Models;
 
-namespace Fireball.Game.Server.SessionModule
+namespace Fireball.Fireworks.SessionModule
 {
     public class GetSessionMessage : JsonMessage
     {

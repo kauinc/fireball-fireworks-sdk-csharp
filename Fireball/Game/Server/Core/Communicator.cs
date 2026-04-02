@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace Fireball.Game.Server
+namespace Fireball.Fireworks
 {
     public class ResponseResult<T>
     {

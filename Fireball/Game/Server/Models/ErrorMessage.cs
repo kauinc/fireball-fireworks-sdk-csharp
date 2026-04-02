@@ -1,4 +1,4 @@
-﻿namespace Fireball.Game.Server.Models
+﻿namespace Fireball.Fireworks.Models
 {
     public enum ErrorCode
     {

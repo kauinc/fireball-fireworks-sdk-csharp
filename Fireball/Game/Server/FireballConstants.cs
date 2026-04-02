@@ -1,4 +1,4 @@
-﻿namespace Fireball.Game.Server
+﻿namespace Fireball.Fireworks
 {
     public static class FireballConstants
     {

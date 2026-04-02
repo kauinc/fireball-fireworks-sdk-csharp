@@ -1,4 +1,4 @@
-﻿namespace Fireball.Game.Server.SessionModule
+﻿namespace Fireball.Fireworks.SessionModule
 {
     public class Player
     {

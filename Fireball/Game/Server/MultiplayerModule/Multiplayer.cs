@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Fireball.Game.Server.MessagesModule;
-using Fireball.Game.Server.Models;
-using Fireball.Game.Server.SessionModule;
+using Fireball.Fireworks.MessagesModule;
+using Fireball.Fireworks.Models;
+using Fireball.Fireworks.SessionModule;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace Fireball.Game.Server.MultiplayerModule
+namespace Fireball.Fireworks.MultiplayerModule
 {
     public interface IMultiplayer
 	{

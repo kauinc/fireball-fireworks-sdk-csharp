@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Fireball.Game.Server.JackpotsModule;
-using Fireball.Game.Server.Models;
-using Fireball.Game.Server.Validation;
+using Fireball.Fireworks.JackpotsModule;
+using Fireball.Fireworks.Models;
+using Fireball.Fireworks.Validation;
 using Newtonsoft.Json;
 
-namespace Fireball.Game.Server.IntegrationModule
+namespace Fireball.Fireworks.IntegrationModule
 {
     public class IntegrationAuthMessage : BaseMessage
     {

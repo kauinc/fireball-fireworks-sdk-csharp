@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Fireball.Game.Server.Models;
+using Fireball.Fireworks.Models;
 using Newtonsoft.Json;
 
-namespace Fireball.Game.Server.JackpotsModule
+namespace Fireball.Fireworks.JackpotsModule
 {
     public class JackpotBaseMessage : JsonMessage
     {

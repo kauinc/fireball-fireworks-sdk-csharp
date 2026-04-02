@@ -1,7 +1,7 @@
-﻿using Fireball.Game.Server.Models;
+﻿using Fireball.Fireworks.Models;
 using System.Collections.Generic;
 
-namespace Fireball.Game.Server.TestsModule
+namespace Fireball.Fireworks.TestsModule
 {
     public class RTPTest : JsonMessage
     {

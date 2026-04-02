@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Fireball.Game.Server.Models;
-using Fireball.Game.Server.SessionModule;
+using Fireball.Fireworks.Models;
+using Fireball.Fireworks.SessionModule;
 using Microsoft.Extensions.Logging;
 
-namespace Fireball.Game.Server.JackpotsModule
+namespace Fireball.Fireworks.JackpotsModule
 {
     public interface IJackpots
     {

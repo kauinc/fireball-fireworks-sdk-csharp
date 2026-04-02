@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Fireball.Game.Server.Models;
-using Fireball.Game.Server.JackpotsModule;
+using Fireball.Fireworks.Models;
+using Fireball.Fireworks.JackpotsModule;
 using Microsoft.Extensions.Logging;
 
-namespace Fireball.Game.Server.MessagesModule
+namespace Fireball.Fireworks.MessagesModule
 {
     internal interface IMessenger
     {

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Fireball.Game.Server.Models;
+using Fireball.Fireworks.Models;
 using Microsoft.Extensions.Logging;
 
-namespace Fireball.Game.Server.MultiplayerModule
+namespace Fireball.Fireworks.MultiplayerModule
 {
     internal interface IMatchMaker
     {

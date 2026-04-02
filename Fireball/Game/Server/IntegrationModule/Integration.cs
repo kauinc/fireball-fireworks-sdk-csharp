@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using Fireball.Game.Server.Models;
+using Fireball.Fireworks.Models;
 using Microsoft.Extensions.Logging;
 
-namespace Fireball.Game.Server.IntegrationModule
+namespace Fireball.Fireworks.IntegrationModule
 {
     internal interface IIntegration
     {

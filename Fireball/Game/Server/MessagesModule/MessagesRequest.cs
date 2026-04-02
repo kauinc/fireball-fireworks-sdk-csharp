@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Fireball.Game.Server.Models;
-using Fireball.Game.Server.JackpotsModule;
+using Fireball.Fireworks.Models;
+using Fireball.Fireworks.JackpotsModule;
 using Newtonsoft.Json;
 
-namespace Fireball.Game.Server.MessagesModule
+namespace Fireball.Fireworks.MessagesModule
 {
     public class MessagesBaseRequest<T> where T : BaseMessage
     {

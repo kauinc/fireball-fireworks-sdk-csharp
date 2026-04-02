@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Fireball.Game.Server.Models
+namespace Fireball.Fireworks.Models
 {
     public enum DialogButtonAction
     {

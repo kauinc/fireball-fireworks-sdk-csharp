@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
-namespace Fireball.Game.Server.Validation
+namespace Fireball.Fireworks.Validation
 {
     /// <summary>Specifies that a data field value is UUID string (in the canonical 8-4-4-4-12 format)</summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
