@@ -4,7 +4,7 @@
     <OutputType>Library</OutputType>
     <TargetFramework>net10.0</TargetFramework>
     <Authors>KAU Inc.</Authors>
-    <Description>Fireball™ Fireworks is the world's most high performance and feature rich Remote Games Server built upon almost two decades of hard earned battle experience. It's open architecture allows for game studios to easily deploy and maintain games logic and for operators to simply integrate into the action.</Description>
+    <Description>A server-side C# SDK for integrating game servers with the Fireball platform. It sits on your game's backend and acts as the single point of contact for all communication with Fireball — handling player authentication, wallet operations (bets and wins), game session state, client message delivery, jackpots, and multiplayer coordination.</Description>
     <PackageId>Fireball.Fireworks</PackageId>
     <RootNamespace>Fireball.Fireworks</RootNamespace>
     <Configurations>Release;Debug</Configurations>
@@ -16,7 +16,7 @@
     <PackageTags>fireball,fireworks,game,server</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>NUGET_README.md</PackageReadmeFile>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

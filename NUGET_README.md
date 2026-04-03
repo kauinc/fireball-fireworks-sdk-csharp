@@ -4,8 +4,6 @@ A server-side C# SDK for integrating game servers with the Fireball platform. It
 
 The SDK is designed to run within a Fireball-hosted environment.
 
-<img width="512" height="512" alt="FireWorks" src="https://github.com/user-attachments/assets/894c83e4-ab14-4d43-bc9a-7bb5f128b029" />
-
 ---
 
 ## Table of Contents
