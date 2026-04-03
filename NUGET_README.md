@@ -10,22 +10,9 @@ The SDK is designed to run within a Fireball-hosted environment.
 
 ## Table of Contents
 
-- [NuGet Package](#nuget-package)
 - [Installation](#installation)
 - [Quick Start](#quick-start)
 - [Modules](#modules)
-- [For Developers: Releasing a New Version](#for-developers-releasing-a-new-version)
-
----
-
-## NuGet Package
-
-| Property | Value |
-|---|---|
-| Package ID | `Fireball.Fireworks` |
-| Target Framework | .NET 10.0 |
-| Authors | KAU Inc. |
-| License | MIT |
 
 ---
 
@@ -106,52 +93,3 @@ public class MyGameFunction
 | **Multiplayer** | `Fireball.Fireworks.MultiplayerModule` | Multiplayer session management and matchmaking |
 | **Validation** | `Fireball.Fireworks.Validation` | Message validation attributes and extension methods |
 | **Tests** | `Fireball.Fireworks.TestsModule` | RTP testing utilities |
-
----
-
-## For Developers: Releasing a New Version
-
-Publishing is fully automated via GitHub Actions using [NuGet Trusted Publishing](https://aka.ms/nuget/trusted-publishing) (keyless OIDC — no API keys required).
-
-### 1. Update the version in `Fireball.Fireworks.csproj`
-
-```xml
-<Version>1.2.3</Version>
-```
-
-Follow [Semantic Versioning](https://semver.org/): `MAJOR.MINOR.PATCH`.
-
-### 2. Commit and push the version bump
-
-```bash
-git add Fireball.Fireworks.csproj
-git commit -m "bump version to 1.2.3"
-git push
-```
-
-### 3. Tag the commit and push the tag
-
-```bash
-git tag v1.2.3
-git push origin v1.2.3
-```
-
-Pushing a tag matching `v*.*.*` triggers the `nuget-publish.yml` workflow, which will:
-
-- Build in Release mode
-- Pack the `.nupkg`
-- Authenticate with NuGet.org via OIDC (no secrets needed)
-- Push the package to NuGet.org
-
-### 4. Verify publication
-
-After a few minutes the new version will appear at:
-
-```
-https://www.nuget.org/packages/Fireball.Fireworks
-```
-
-### Notes
-
-- The `Fireball.Game.Server.Rng` package reference is an external dependency. If it is ever renamed or republished, update the `PackageReference` in `Fireball.Fireworks.csproj` accordingly.
-- The project targets **net10.0** only. Consumers must use .NET 10 or later.
