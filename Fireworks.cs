@@ -50,14 +50,14 @@ namespace Fireball.Fireworks
 
         Task<MessageResult> Authenticate(AuthMessage message);
         Task<MessageResult> BalanceRequest(BaseMessage message);
-        Task<MessageResult> PlaceBet(string betType, long amount, BaseMessage message, ParentBet parentBet = null, List<JackpotContribution> jackpotContributions = null);
-        Task<MessageResult> PlaceFreeBet(string betType, long amount, string freeBetCampaignId, bool isCampaignOver, BaseMessage message, List<JackpotContribution> jackpotContributions = null);
-        Task<MessageResult> PlaceFreeBetBonus(string betType, long amount, string freeBetId, string freeBetCampaignId, bool isCampaignOver, BaseMessage message, List<JackpotContribution> jackpotContributions = null);
+        Task<BetResult> PlaceBet(string betType, long amount, BaseMessage message, ParentBet parentBet = null, List<JackpotContribution> jackpotContributions = null, string roundId = null);
+        Task<BetResult> PlaceFreeBet(string betType, long amount, string freeBetCampaignId, bool isCampaignOver, BaseMessage message, List<JackpotContribution> jackpotContributions = null, string roundId = null);
+        Task<BetResult> PlaceFreeBetBonus(string betType, long amount, string freeBetId, string freeBetCampaignId, bool isCampaignOver, BaseMessage message, List<JackpotContribution> jackpotContributions = null, string roundId = null);
 
-        Task<MessageResult> PayWin(string winningType, string operatorBetId, long amount, BaseMessage message, bool noResponse = false, ParentBet parentBet = null, DisplayDelay displayDelay = null);
-        Task<MessageResult> PayFreeBet(string winningType, string operatorBetId, long amount, string freeBetId, string freeBetCampaignId, bool isCampaignOver, BaseMessage message, bool noResponse = false, DisplayDelay displayDelay = null);
-        Task<MessageResult> PayFreeBetBonus(string winningType, string operatorBetId, long amount, string freeBetId, string freeBetCampaignId, bool isCampaignOver, BaseMessage message, bool noResponse = false, DisplayDelay displayDelay = null);
-        Task<MessageResult> PayJackpot(List<JackpotEntry> jackpotsEntries, string operatorBetId, BaseMessage message, DisplayDelay displayDelay = null);
+        Task<WinResult> PayWin(string winningType, string operatorBetId, long amount, BaseMessage message, bool noResponse = false, ParentBet parentBet = null, DisplayDelay displayDelay = null, string betId = null, string roundId = null, bool roundClosed = false);
+        Task<WinResult> PayFreeBet(string winningType, string operatorBetId, long amount, string freeBetId, string freeBetCampaignId, bool isCampaignOver, BaseMessage message, bool noResponse = false, DisplayDelay displayDelay = null, string betId = null, string roundId = null, bool roundClosed = false);
+        Task<WinResult> PayFreeBetBonus(string winningType, string operatorBetId, long amount, string freeBetId, string freeBetCampaignId, bool isCampaignOver, BaseMessage message, bool noResponse = false, DisplayDelay displayDelay = null, string betId = null, string roundId = null, bool roundClosed = false);
+        Task<WinResult> PayJackpot(List<JackpotEntry> jackpotsEntries, string operatorBetId, BaseMessage message, DisplayDelay displayDelay = null, string betId = null, string roundId = null);
         Task<MessageResult> PayDisplay(string displayId, BaseMessage message);
 
         Task<GameSession> GetGameSession(string gameSessionId);
@@ -194,15 +194,15 @@ namespace Fireball.Fireworks
                 return await SendErrorToClient(error);
             }
         }
-        public async Task<MessageResult> PlaceBet(string betType, long amount, BaseMessage message, ParentBet parentBet = null, List<JackpotContribution> jackpotContributions = null)
+        public async Task<BetResult> PlaceBet(string betType, long amount, BaseMessage message, ParentBet parentBet = null, List<JackpotContribution> jackpotContributions = null, string roundId = null)
         {
             if (parentBet == null && (amount == 0 || betType == FireballConstants.BetType.FREESPIN))
             {
                 _logger.LogWarning("ParentBet object is required for Bets with zero amount for some operator!");
             }
-            return await PlaceBetInternal(betType, amount, parentBet, null, message, jackpotContributions);
+            return await PlaceBetInternal(betType, amount, parentBet, null, message, roundId, jackpotContributions);
         }
-        public async Task<MessageResult> PlaceFreeBet(string betType, long amount, string freeBetCampaignId, bool isCampaignOver, BaseMessage message, List<JackpotContribution> jackpotContributions = null)
+        public async Task<BetResult> PlaceFreeBet(string betType, long amount, string freeBetCampaignId, bool isCampaignOver, BaseMessage message, List<JackpotContribution> jackpotContributions = null, string roundId = null)
         {
             var details = new FreeBetDetails()
             {
@@ -210,9 +210,9 @@ namespace Fireball.Fireworks
                 FreeBetId = null,
                 IsFreeBetCampaignOver = isCampaignOver,
             };
-            return await PlaceBetInternal(betType, amount, null, details, message, jackpotContributions);
+            return await PlaceBetInternal(betType, amount, null, details, message, roundId, jackpotContributions);
         }
-        public async Task<MessageResult> PlaceFreeBetBonus(string betType, long amount, string freeBetId, string freeBetCampaignId, bool isCampaignOver, BaseMessage message, List<JackpotContribution> jackpotContributions = null)
+        public async Task<BetResult> PlaceFreeBetBonus(string betType, long amount, string freeBetId, string freeBetCampaignId, bool isCampaignOver, BaseMessage message, List<JackpotContribution> jackpotContributions = null, string roundId = null)
         {
             var details = new FreeBetDetails()
             {
@@ -220,32 +220,34 @@ namespace Fireball.Fireworks
                 FreeBetId = freeBetId,
                 IsFreeBetCampaignOver = isCampaignOver,
             };
-            return await PlaceBetInternal(betType, amount, null, details, message, jackpotContributions);
+            return await PlaceBetInternal(betType, amount, null, details, message, roundId, jackpotContributions);
         }
-        private async Task<MessageResult> PlaceBetInternal(string betType, long amount, ParentBet parentBet, FreeBetDetails freeBetDetails, BaseMessage message, List<JackpotContribution> jackpotContributions = null)
+        private async Task<BetResult> PlaceBetInternal(string betType, long amount, ParentBet parentBet, FreeBetDetails freeBetDetails, BaseMessage message, string roundId = null, List<JackpotContribution> jackpotContributions = null)
         {
             var validationResult = message.Validate();
             if (validationResult == ValidationResult.Success)
             {
                 _logger.LogDebug($"Validation - {message.Name} - success!");
-                return await _integration.PlaceBet(new IntegrationBetPlace(betType, amount, message, parentBet, freeBetDetails, jackpotContributions));
+                var integrationBet = new IntegrationBetPlace(betType, amount, message, parentBet, freeBetDetails, jackpotContributions, roundId);
+                var result = await _integration.PlaceBet(integrationBet);
+                return new BetResult(result, integrationBet.BetId, integrationBet.RoundId);
             }
             else
             {
                 _logger.LogError($"Validation - {message.Name} - error: {validationResult.ErrorMessage}");
                 var error = new ErrorMessage(FireballConstants.MessagesNames.BET_PLACE_REJECTED, ErrorCode.Validation, validationResult.ErrorMessage, message);
-                return await SendErrorToClient(error);
+                return new BetResult(await SendErrorToClient(error));
             }
         }
-        public async Task<MessageResult> PayWin(string winningType, string operatorBetId, long amount, BaseMessage message, bool noResponse = false, ParentBet parentBet = null, DisplayDelay displayDelay = null)
+        public async Task<WinResult> PayWin(string winningType, string operatorBetId, long amount, BaseMessage message, bool noResponse = false, ParentBet parentBet = null, DisplayDelay displayDelay = null, string betId = null, string roundId = null, bool roundClosed = false)
         {
             if (parentBet == null && winningType == FireballConstants.WinningType.FREESPIN)
             {
                 _logger.LogWarning("ParentBet object is required for Bets with zero amount for some operator!");
             }
-            return await PayWinInternal(winningType, operatorBetId, amount, null, message, noResponse, parentBet, displayDelay);
+            return await PayWinInternal(winningType, operatorBetId, amount, null, message, noResponse, parentBet, displayDelay, betId, roundId, roundClosed);
         }
-        public async Task<MessageResult> PayFreeBet(string winningType, string operatorBetId, long amount, string freeBetId, string freeBetCampaignId, bool isCampaignOver, BaseMessage message, bool noResponse = false, DisplayDelay displayDelay = null)
+        public async Task<WinResult> PayFreeBet(string winningType, string operatorBetId, long amount, string freeBetId, string freeBetCampaignId, bool isCampaignOver, BaseMessage message, bool noResponse = false, DisplayDelay displayDelay = null, string betId = null, string roundId = null, bool roundClosed = false)
         {
             var details = new FreeBetDetails()
             {
@@ -253,9 +255,9 @@ namespace Fireball.Fireworks
                 FreeBetId = freeBetId,
                 IsFreeBetCampaignOver = isCampaignOver,
             };
-            return await PayWinInternal(winningType, operatorBetId, amount, details, message, noResponse, null, displayDelay);
+            return await PayWinInternal(winningType, operatorBetId, amount, details, message, noResponse, null, displayDelay, betId, roundId, roundClosed);
         }
-        public async Task<MessageResult> PayFreeBetBonus(string winningType, string operatorBetId, long amount, string freeBetId, string freeBetCampaignId, bool isCampaignOver, BaseMessage message, bool noResponse = false, DisplayDelay displayDelay = null)
+        public async Task<WinResult> PayFreeBetBonus(string winningType, string operatorBetId, long amount, string freeBetId, string freeBetCampaignId, bool isCampaignOver, BaseMessage message, bool noResponse = false, DisplayDelay displayDelay = null, string betId = null, string roundId = null, bool roundClosed = false)
         {
             var details = new FreeBetDetails()
             {
@@ -263,39 +265,43 @@ namespace Fireball.Fireworks
                 FreeBetId = freeBetId,
                 IsFreeBetCampaignOver = isCampaignOver,
             };
-            return await PayWinInternal(winningType, operatorBetId, amount, details, message, noResponse, null, displayDelay);
+            return await PayWinInternal(winningType, operatorBetId, amount, details, message, noResponse, null, displayDelay, betId, roundId, roundClosed);
         }
-        private async Task<MessageResult> PayWinInternal(string winningType, string operatorBetId, long amount, FreeBetDetails freeBetDetails, BaseMessage message, bool noResponse = false, ParentBet parentBet = null, DisplayDelay displayDelay = null)
+        private async Task<WinResult> PayWinInternal(string winningType, string operatorBetId, long amount, FreeBetDetails freeBetDetails, BaseMessage message, bool noResponse = false, ParentBet parentBet = null, DisplayDelay displayDelay = null, string betId = null, string roundId = null, bool roundClosed = false)
         {
             var validationResult = message.Validate();
             if (validationResult == ValidationResult.Success)
             {
                 _logger.LogDebug($"Validation - {message.Name} - success!");
-                return await _integration.PayWin(new IntegrationWinningPay(winningType, operatorBetId, amount, message, noResponse, parentBet, displayDelay, freeBetDetails));
+                var integrationWin = new IntegrationWinningPay(winningType, operatorBetId, amount, message, noResponse, parentBet, displayDelay, freeBetDetails, betId, roundId, roundClosed);
+                var result = await _integration.PayWin(integrationWin);
+                return new WinResult(result, integrationWin.WinId, integrationWin.BetId, integrationWin.RoundId);
             }
             else
             {
                 _logger.LogError($"Validation - {message.Name} - error: {validationResult.ErrorMessage}");
                 var error = new ErrorMessage(FireballConstants.MessagesNames.WINNING_PAY_REJECTED, ErrorCode.Validation, validationResult.ErrorMessage, message);
-                return await SendErrorToClient(error);
+                return new WinResult(await SendErrorToClient(error));
             }
         }
         #endregion INTEGRATION
 
         #region JACKPOT
-        public async Task<MessageResult> PayJackpot(List<JackpotEntry> jackpotsEntries, string operatorBetId, BaseMessage message, DisplayDelay displayDelay = null)
+        public async Task<WinResult> PayJackpot(List<JackpotEntry> jackpotsEntries, string operatorBetId, BaseMessage message, DisplayDelay displayDelay = null, string betId = null, string roundId = null)
         {
             var validationResult = message.Validate();
             if (validationResult == ValidationResult.Success)
             {
                 _logger.LogDebug($"Validation - {message.Name} - success!");
-                return await _integration.PayJackpot(new IntegrationJackpotPay(jackpotsEntries, operatorBetId, message, displayDelay));
+                var integrationJackpot = new IntegrationJackpotPay(jackpotsEntries, operatorBetId, message, displayDelay, betId, roundId);
+                var result = await _integration.PayJackpot(integrationJackpot);
+                return new WinResult(result, integrationJackpot.WinId, integrationJackpot.BetId, integrationJackpot.RoundId);
             }
             else
             {
                 _logger.LogError($"Validation - {message.Name} - error: {validationResult.ErrorMessage}");
                 var error = new ErrorMessage(FireballConstants.MessagesNames.WINNING_PAY_REJECTED, ErrorCode.Validation, validationResult.ErrorMessage, message);
-                return await SendErrorToClient(error);
+                return new WinResult(await SendErrorToClient(error));
             }
         }
         public async Task<MessageResult> PayDisplay(string displayId, BaseMessage message)

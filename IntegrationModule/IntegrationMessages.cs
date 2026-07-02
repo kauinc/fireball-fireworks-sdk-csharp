@@ -67,11 +67,13 @@ namespace Fireball.Fireworks.IntegrationModule
     {
         public string BetType { get; set; }
         public long Amount { get; set; }
+        public string RoundId { get; set; }
+        public string BetId { get; set; }
         public ParentBet ParentBet { get; set; }
         public FreeBetDetails FreeBetDetails { get; set; }
         public List<JackpotContribution> JackpotContributions { get; set; }
 
-        public IntegrationBetPlace(string betType, long amount, BaseMessage message, ParentBet parentBet = null, FreeBetDetails freeBetDetails = null, List<JackpotContribution> jackpotContributions = null)
+        public IntegrationBetPlace(string betType, long amount, BaseMessage message, ParentBet parentBet = null, FreeBetDetails freeBetDetails = null, List<JackpotContribution> jackpotContributions = null, string roundId = null)
         {
             CopyBaseParams(message);
 
@@ -79,6 +81,8 @@ namespace Fireball.Fireworks.IntegrationModule
             Amount = amount;
             BetType = betType;
             ReplayId = FireballTools.GenerateGUID();
+            RoundId = string.IsNullOrEmpty(roundId) ? FireballTools.GenerateGUID() : roundId;
+            BetId = FireballTools.GenerateGUID();
             ParentBet = parentBet;
             FreeBetDetails = freeBetDetails;
             JackpotContributions = jackpotContributions;
@@ -92,6 +96,8 @@ namespace Fireball.Fireworks.IntegrationModule
         public long Balance { get; set; }
         public long Amount { get; set; }
         public string OperatorBetId { get; set; }
+        public string RoundId { get; set; }
+        public string BetId { get; set; }
         public ParentBet ParentBet { get; set; }
         public FreeBetDetails FreeBetDetails { get; set; }
         public List<FreeBetCampaign> FreeBetCampaigns { get; set; }
@@ -108,11 +114,15 @@ namespace Fireball.Fireworks.IntegrationModule
         public string OperatorBetId { get; set; }
         public long Amount { get; set; }
         public bool NoResponse { get; set; }
+        public string WinId { get; set; }
+        public string BetId { get; set; }
+        public string RoundId { get; set; }
+        public bool RoundClosed { get; set; }
         public ParentBet ParentBet { get; set; }
         public DisplayDelay DisplayDelay { get; set; }
         public FreeBetDetails FreeBetDetails { get; set; }
 
-        public IntegrationWinningPay(string winningType, string operatorBetId, long amount, BaseMessage message, bool noResponse = false, ParentBet parentBet = null, DisplayDelay displayDelay = null, FreeBetDetails freeBetDetails = null)
+        public IntegrationWinningPay(string winningType, string operatorBetId, long amount, BaseMessage message, bool noResponse = false, ParentBet parentBet = null, DisplayDelay displayDelay = null, FreeBetDetails freeBetDetails = null, string betId = null, string roundId = null, bool roundClosed = false)
         {
             CopyBaseParams(message);
 
@@ -121,6 +131,10 @@ namespace Fireball.Fireworks.IntegrationModule
             OperatorBetId = operatorBetId;
             Amount = amount;
             NoResponse = noResponse;
+            WinId = FireballTools.GenerateGUID();
+            BetId = betId;
+            RoundId = roundId;
+            RoundClosed = roundClosed;
             ParentBet = parentBet;
             DisplayDelay = displayDelay;
             FreeBetDetails = freeBetDetails;
@@ -134,6 +148,10 @@ namespace Fireball.Fireworks.IntegrationModule
         public string OperatorBetId { get; set; }
         public long Balance { get; set; }
         public long Amount { get; set; }
+        public string WinId { get; set; }
+        public string BetId { get; set; }
+        public string RoundId { get; set; }
+        public bool RoundClosed { get; set; }
         public ParentBet ParentBet { get; set; }
         public FreeBetDetails FreeBetDetails { get; set; }
         public List<FreeBetCampaign> FreeBetCampaigns { get; set; }
@@ -149,14 +167,20 @@ namespace Fireball.Fireworks.IntegrationModule
     {
         public List<JackpotEntry> Jackpots { get; set; }
         public string OperatorBetId { get; set; }
+        public string WinId { get; set; }
+        public string BetId { get; set; }
+        public string RoundId { get; set; }
         public DisplayDelay DisplayDelay { get; set; }
 
-        public IntegrationJackpotPay(List<JackpotEntry> jackpots, string operatorBetId, BaseMessage message, DisplayDelay displayDelay = null)
+        public IntegrationJackpotPay(List<JackpotEntry> jackpots, string operatorBetId, BaseMessage message, DisplayDelay displayDelay = null, string betId = null, string roundId = null)
         {
             CopyBaseParams(message);
 
             Jackpots = jackpots;
             OperatorBetId = operatorBetId;
+            WinId = FireballTools.GenerateGUID();
+            BetId = betId;
+            RoundId = roundId;
             DisplayDelay = displayDelay;
             server_side = null;
             client_side = null;

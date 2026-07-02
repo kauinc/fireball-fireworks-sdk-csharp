@@ -43,4 +43,40 @@ namespace Fireball.Fireworks.Models
             };
         }
     }
+
+    public class BetResult : MessageResult
+    {
+        public string RoundId { get; set; }
+        public string BetId { get; set; }
+
+        public BetResult() { }
+
+        public BetResult(MessageResult result, string betId = null, string roundId = null)
+        {
+            Status = result?.Status;
+            ActionId = result?.ActionId;
+            Message = result?.Message;
+            BetId = betId;
+            RoundId = roundId;
+        }
+    }
+
+    public class WinResult : MessageResult
+    {
+        public string WinId { get; set; }
+        public string BetId { get; set; }
+        public string RoundId { get; set; }
+
+        public WinResult() { }
+
+        public WinResult(MessageResult result, string winId = null, string betId = null, string roundId = null)
+        {
+            Status = result?.Status;
+            ActionId = result?.ActionId;
+            Message = result?.Message;
+            WinId = winId;
+            BetId = betId;
+            RoundId = roundId;
+        }
+    }
 }

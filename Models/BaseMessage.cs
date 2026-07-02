@@ -52,6 +52,12 @@ namespace Fireball.Fireworks.Models
 
         public string ReplayId { get; set; }
 
+        public string MessageId { get; set; }
+
+        public int MessageClientDeviceSequence { get; set; }
+
+        public int MessageServerDeviceSequence { get; set; }
+
         public Dictionary<string, string> Extra { get; set; }
 
         public Dictionary<string, object> server_side { get; set; }
@@ -77,6 +83,9 @@ namespace Fireball.Fireworks.Models
             Currency = otherMessage.Currency;
             Extra = otherMessage.Extra;
             ReplayId = otherMessage.ReplayId;
+            MessageId = otherMessage.MessageId;
+            MessageClientDeviceSequence = otherMessage.MessageClientDeviceSequence;
+            MessageServerDeviceSequence = otherMessage.MessageServerDeviceSequence;
 
             server_side = otherMessage.server_side;
             client_side = otherMessage.client_side;
