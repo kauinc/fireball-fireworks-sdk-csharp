@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace Fireball.Fireworks.Models
 {
@@ -46,12 +47,12 @@ namespace Fireball.Fireworks.Models
 
     public class BetResult : MessageResult
     {
-        public string RoundId { get; set; }
-        public string BetId { get; set; }
+        public Guid? RoundId { get; set; }
+        public Guid? BetId { get; set; }
 
         public BetResult() { }
 
-        public BetResult(MessageResult result, string betId = null, string roundId = null)
+        public BetResult(MessageResult result, Guid? betId = null, Guid? roundId = null)
         {
             Status = result?.Status;
             ActionId = result?.ActionId;
@@ -63,13 +64,13 @@ namespace Fireball.Fireworks.Models
 
     public class WinResult : MessageResult
     {
-        public string WinId { get; set; }
-        public string BetId { get; set; }
-        public string RoundId { get; set; }
+        public Guid? WinId { get; set; }
+        public Guid? BetId { get; set; }
+        public Guid? RoundId { get; set; }
 
         public WinResult() { }
 
-        public WinResult(MessageResult result, string winId = null, string betId = null, string roundId = null)
+        public WinResult(MessageResult result, Guid? winId = null, Guid? betId = null, Guid? roundId = null)
         {
             Status = result?.Status;
             ActionId = result?.ActionId;
