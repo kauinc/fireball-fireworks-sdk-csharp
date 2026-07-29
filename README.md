@@ -153,5 +153,4 @@ https://www.nuget.org/packages/Fireball.Fireworks
 
 ### Notes
 
-- The `Fireball.Game.Server.Rng` package reference is an external dependency. If it is ever renamed or republished, update the `PackageReference` in `Fireball.Fireworks.csproj` accordingly.
 - The project targets **net10.0** only. Consumers must use .NET 10 or later.

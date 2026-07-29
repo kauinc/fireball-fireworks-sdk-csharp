@@ -10,14 +10,16 @@ namespace Fireball.Fireworks.IntegrationModule
     public class IntegrationAuthMessage : BaseMessage
     {
         public string Token { get; set; }
+        public Guid? TransactionId { get; set; }
 
-        public IntegrationAuthMessage(AuthMessage message)
+        public IntegrationAuthMessage(AuthMessage message, Guid? transactionId = null)
         {
             CopyBaseParams(message);
 
             Name = FireballConstants.MessagesNames.AUTHENTICATE;
             Token = message.Token;
             ConnectionId = message.ConnectionId;
+            TransactionId = transactionId ?? Guid.NewGuid();
             server_side = null;
             client_side = null;
         }
@@ -28,6 +30,7 @@ namespace Fireball.Fireworks.IntegrationModule
         public long Balance { get; set; }
         public long? Multiplier { get; set; }
         public List<FreeBetCampaign> FreeBetCampaigns { get; set; }
+        public Guid? TransactionId { get; set; }
 
         public IntegrationSessionMessage()
         {
@@ -41,14 +44,16 @@ namespace Fireball.Fireworks.IntegrationModule
         public new string GameSession { get; set; }
         [RequiredSet(IsRequired = false)]
         public new string PlayerId { get; set; }
+        public Guid? TransactionId { get; set; }
 
         public IntegrationBalanceRequest() { }
 
-        public IntegrationBalanceRequest(BaseMessage message)
+        public IntegrationBalanceRequest(BaseMessage message, Guid? transactionId = null)
         {
             CopyBaseParams(message);
 
             Name = FireballConstants.MessagesNames.BALANCE_REQUEST;
+            TransactionId = transactionId ?? Guid.NewGuid();
             server_side = null;
             client_side = null;
         }
@@ -56,6 +61,7 @@ namespace Fireball.Fireworks.IntegrationModule
     public class IntegrationBalanceUpdated : BaseMessage
     {
         public long Balance { get; set; }
+        public Guid? TransactionId { get; set; }
 
         public IntegrationBalanceUpdated()
         {
@@ -72,8 +78,9 @@ namespace Fireball.Fireworks.IntegrationModule
         public ParentBet ParentBet { get; set; }
         public FreeBetDetails FreeBetDetails { get; set; }
         public List<JackpotContribution> JackpotContributions { get; set; }
+        public Guid? TransactionId { get; set; }
 
-        public IntegrationBetPlace(string betType, long amount, BaseMessage message, ParentBet parentBet = null, FreeBetDetails freeBetDetails = null, List<JackpotContribution> jackpotContributions = null, Guid? roundId = null)
+        public IntegrationBetPlace(string betType, long amount, BaseMessage message, ParentBet parentBet = null, FreeBetDetails freeBetDetails = null, List<JackpotContribution> jackpotContributions = null, Guid? roundId = null, Guid? betId = null, Guid? transactionId = null)
         {
             CopyBaseParams(message);
 
@@ -82,10 +89,11 @@ namespace Fireball.Fireworks.IntegrationModule
             BetType = betType;
             ReplayId = FireballTools.GenerateGUID();
             RoundId = roundId ?? Guid.NewGuid();
-            BetId = Guid.NewGuid();
+            BetId = betId ?? Guid.NewGuid();
             ParentBet = parentBet;
             FreeBetDetails = freeBetDetails;
             JackpotContributions = jackpotContributions;
+            TransactionId = transactionId ?? Guid.NewGuid();
             server_side = null;
             client_side = null;
         }
@@ -101,6 +109,7 @@ namespace Fireball.Fireworks.IntegrationModule
         public ParentBet ParentBet { get; set; }
         public FreeBetDetails FreeBetDetails { get; set; }
         public List<FreeBetCampaign> FreeBetCampaigns { get; set; }
+        public Guid? TransactionId { get; set; }
 
         public IntegrationBetPlaced()
         {
@@ -121,8 +130,9 @@ namespace Fireball.Fireworks.IntegrationModule
         public ParentBet ParentBet { get; set; }
         public DisplayDelay DisplayDelay { get; set; }
         public FreeBetDetails FreeBetDetails { get; set; }
+        public Guid? TransactionId { get; set; }
 
-        public IntegrationWinningPay(string winningType, string operatorBetId, long amount, BaseMessage message, bool noResponse = false, ParentBet parentBet = null, DisplayDelay displayDelay = null, FreeBetDetails freeBetDetails = null, Guid? betId = null, Guid? roundId = null, bool roundClosed = false)
+        public IntegrationWinningPay(string winningType, string operatorBetId, long amount, BaseMessage message, bool noResponse = false, ParentBet parentBet = null, DisplayDelay displayDelay = null, FreeBetDetails freeBetDetails = null, Guid? betId = null, Guid? roundId = null, bool roundClosed = false, Guid? winId = null, Guid? transactionId = null)
         {
             CopyBaseParams(message);
 
@@ -131,13 +141,14 @@ namespace Fireball.Fireworks.IntegrationModule
             OperatorBetId = operatorBetId;
             Amount = amount;
             NoResponse = noResponse;
-            WinId = Guid.NewGuid();
+            WinId = winId ?? Guid.NewGuid();
             BetId = betId;
             RoundId = roundId;
             RoundClosed = roundClosed;
             ParentBet = parentBet;
             DisplayDelay = displayDelay;
             FreeBetDetails = freeBetDetails;
+            TransactionId = transactionId ?? Guid.NewGuid();
             server_side = null;
             client_side = null;
         }
@@ -155,6 +166,7 @@ namespace Fireball.Fireworks.IntegrationModule
         public ParentBet ParentBet { get; set; }
         public FreeBetDetails FreeBetDetails { get; set; }
         public List<FreeBetCampaign> FreeBetCampaigns { get; set; }
+        public Guid? TransactionId { get; set; }
 
         public IntegrationWinningPaid()
         {
@@ -171,17 +183,19 @@ namespace Fireball.Fireworks.IntegrationModule
         public Guid? BetId { get; set; }
         public Guid? RoundId { get; set; }
         public DisplayDelay DisplayDelay { get; set; }
+        public Guid? TransactionId { get; set; }
 
-        public IntegrationJackpotPay(List<JackpotEntry> jackpots, string operatorBetId, BaseMessage message, DisplayDelay displayDelay = null, Guid? betId = null, Guid? roundId = null)
+        public IntegrationJackpotPay(List<JackpotEntry> jackpots, string operatorBetId, BaseMessage message, DisplayDelay displayDelay = null, Guid? betId = null, Guid? roundId = null, Guid? winId = null, Guid? transactionId = null)
         {
             CopyBaseParams(message);
 
             Jackpots = jackpots;
             OperatorBetId = operatorBetId;
-            WinId = Guid.NewGuid();
+            WinId = winId ?? Guid.NewGuid();
             BetId = betId;
             RoundId = roundId;
             DisplayDelay = displayDelay;
+            TransactionId = transactionId ?? Guid.NewGuid();
             server_side = null;
             client_side = null;
         }
@@ -191,6 +205,7 @@ namespace Fireball.Fireworks.IntegrationModule
         public long TotalAmount { get; set; }
         public long Balance { get; set; }
         public List<JackpotEntry> Jackpots { get; set; }
+        public Guid? TransactionId { get; set; }
 
         public IntegrationJackpotPaid()
         {
@@ -202,12 +217,14 @@ namespace Fireball.Fireworks.IntegrationModule
     public class IntegrationPayDisplay : BaseMessage
     {
         public string DisplayId { get; set; }
+        public Guid? TransactionId { get; set; }
 
-        public IntegrationPayDisplay(string displayId, BaseMessage message)
+        public IntegrationPayDisplay(string displayId, BaseMessage message, Guid? transactionId = null)
         {
             CopyBaseParams(message);
 
             DisplayId = displayId;
+            TransactionId = transactionId ?? Guid.NewGuid();
             server_side = null;
             client_side = null;
         }
@@ -216,6 +233,8 @@ namespace Fireball.Fireworks.IntegrationModule
 
     public class IntegrationDisconnectMessage : BaseMessage
     {
+        public Guid? TransactionId { get; set; }
+
         public IntegrationDisconnectMessage()
         {
             Name = FireballConstants.MessagesNames.DISCONNECTED;
@@ -224,12 +243,15 @@ namespace Fireball.Fireworks.IntegrationModule
 
     public class IntegrationEndSessionMessage : BaseMessage
     {
+        public Guid? TransactionId { get; set; }
+
         public IntegrationEndSessionMessage() { }
 
-        public IntegrationEndSessionMessage(BaseMessage message)
+        public IntegrationEndSessionMessage(BaseMessage message, Guid? transactionId = null)
         {
             Name = FireballConstants.MessagesNames.DISCONNECTED;
             CopyBaseParams(message);
+            TransactionId = transactionId ?? Guid.NewGuid();
         }
     }
 
